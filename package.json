@@ -1,29 +1,19 @@
 {
-  "name": "argent-bank-api",
+  "name": "AllanCerveaux_13_14032022",
   "version": "0.0.1",
-  "private": true,
-  "description": "Project #10 - Argent Bank",
-  "keywords": [],
-  "author": "",
-  "license": "",
+  "description": "Monorepo of Argent Bank project",
   "main": "index.js",
-  "dependencies": {
-    "axios": "^0.19.2",
-    "bcrypt": "^5.0.0",
-    "cors": "^2.8.5",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.9.21",
-    "swagger-ui-express": "^4.1.4",
-    "yamljs": "^0.3.0"
-  },
+  "repository": "git@github.com:oc-2021-2022/AllanCerveaux_13_14032022.git",
+  "author": "Callan <cerveauxallanjean@gmail.com>",
+  "license": "MIT",
   "scripts": {
-    "dev:server": "nodemon ./server/server.js",
-    "populate-db": "node ./server/scripts/populateDatabase.js",
-    "server": "node ./server/server.js"
+    "start": "yarn lerna run start --stream",
+    "test": "yarn lerna run test --stream",
+    "server:populate": "yarn lerna run populate-db --scope server",
+    "server:dev": "yarn lerna exec dev:server --scope server"
   },
   "devDependencies": {
-    "nodemon": "^2.0.4"
-  }
+    "lerna": "^4.0.0"
+  },
+  "private": true
 }
