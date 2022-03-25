@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { loginUser } from '../app/authSlice'
 import Field from './Field'
 
@@ -8,25 +8,32 @@ import Field from './Field'
 export default function Login() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const location = useLocation()
+  const {from = { pathname: '/' }} = location
   
-  const handleSubmit = ({preventDefault, target}) => {
-    preventDefault()
-    const credentials = {
-      email: '',
-      password: ''
-    }
-    const data = new FormData(target)
-    data.forEach((value, name) => credentials[name] = value)
-    dispatch(loginUser(credentials))
+  const [credentials, setCredentials] = useState({
+    email: '',
+    password: ''
+  })
+  
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+    
+    await dispatch(loginUser(credentials))
+    
+    navigate(from, { replace: true })
   }
 
+  const handleStateChange = (event) => {
+    const { name, value } = event.target
+    setCredentials({...credentials, [name]: value})
+  } 
+
   return (
-    <form
-      onSubmit={handleSubmit}
-      method="POST"
-    >
-      <Field type={'email'} id={'email'} name={'email'} label={'email'} value={'tony@stark.com'}/>
-      <Field type={'password'} id={'password'} name={'password'} label={'password'} value={'password123'}/>
+    <form onSubmit={handleSubmit}>
+      <Field type={'email'} id={'email'} name={'email'} label={'email'} value={'tony@stark.com'} handleChange={handleStateChange}/>
+      <Field type={'password'} id={'password'} name={'password'} label={'password'} value={'password123'} handleChange={handleStateChange}/>
       <Field type={'submit'} id={'signIn'} value={'Sign In'} />
     </form>
   )
