@@ -5,7 +5,7 @@ import { loginUser } from '../app/authSlice'
 import Field from './Field'
 
 
-export default function Login() {
+export default function LoginForm() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const location = useLocation()
@@ -32,8 +32,9 @@ export default function Login() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Field type={'email'} id={'email'} name={'email'} label={'email'} value={'tony@stark.com'} handleChange={handleStateChange}/>
-      <Field type={'password'} id={'password'} name={'password'} label={'password'} value={'password123'} handleChange={handleStateChange}/>
+      <Field type={'email'} id={'email'} name={'email'} label={'Email'} value={'tony@stark.com'} handleChange={handleStateChange}/>
+      <Field type={'password'} id={'password'} name={'password'} label={'Password'} value={'password123'} handleChange={handleStateChange}/>
+      <Field type={'checkbox'} id={'remember-me'} label={'Remember me'} />
       <Field type={'submit'} id={'signIn'} value={'Sign In'} />
     </form>
   )
