@@ -23,7 +23,7 @@ export default function LoginForm() {
     
     await dispatch(loginUser(credentials))
     
-    // navigate(from, { replace: true })
+    navigate(from, { replace: true })
   }
 
   const handleStateChange = (event) => {
