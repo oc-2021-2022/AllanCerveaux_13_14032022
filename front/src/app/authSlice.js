@@ -67,7 +67,8 @@ export const authenticationSlice = createSlice({
       })
     },
     [authenticationCheck.fulfilled]: (state, { payload }) => {
-      const { token, user } = payload
+      const { token, data } = payload
+      const user = data?.body || null
 
       Object.assign(state, {
         status: SUCCESSFUL,
