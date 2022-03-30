@@ -28,13 +28,15 @@ export const logout = createAsyncThunk('authentication/logout', authentication_s
 
 export const loginUser = createAsyncThunk(
   "authentication/login",
-  async ({email, password}, thunkAPI) => {
+  async ({email, password, rememberMe}, thunkAPI) => {
     try {
       const response = await login({ email, password })
       let data = await response.data;
       console.log('data', data)
       if (response.status === 200) {
-        localStorage.setItem('token', data.body.token)
+        rememberMe ?
+          localStorage.setItem('token', data.body.token) :
+          sessionStorage.setItem('token', data.body.token)
         return {...data}
       } else {
         return thunkAPI.rejectWithValue(data)
