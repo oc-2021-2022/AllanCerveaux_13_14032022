@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Navigate, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { authenticationCheck, logout, selectAuth } from '../app/authSlice';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { authenticationCheck, selectAuth } from '../app/authSlice';
 import { PENDING } from '../config/constant';
 
 export default function AuthenticationGuard() {
@@ -24,35 +24,21 @@ export default function AuthenticationGuard() {
 }
 
 function RoutedComponent() {
-  const { isAuthenticated } = useSelector(selectAuth)
+  const { isAuthenticated, loggedInUser } = useSelector(selectAuth)
   const location = useLocation()
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
 
   const isLoginPagePathname = location.pathname.includes('login')
   if (isAuthenticated) {
     if (isLoginPagePathname) {
-      const { from = { pathname: '/profile' } } = location;
-      return <Navigate to={from.pathname} state={{ from }} replace />;
+      const { from = { pathname: '/profile' } } = location
+      return <Navigate to={from.pathname} state={{ from }} replace />
     }
-    return (
-      <>
-        <Outlet />
-        <button
-          onClick={async () => {
-            await dispatch(logout());
-            navigate('/');
-          }}
-        >
-          logout
-        </button>
-      </>
-    ) 
+    return <Outlet />
   } else {
     if (isLoginPagePathname) {
-      return <Outlet />;
+      return <Outlet />
     }
 
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    return <Navigate to="/login" state={{ from: location }} replace />
   }
 }
