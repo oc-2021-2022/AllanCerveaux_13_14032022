@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { ERROR, PENDING, SUCCESSFUL } from '../config/constant';
 import { login, profile } from '../services/api';
 import * as authentication_service from '../services/authentication';
+
 export const authenticationCheck = createAsyncThunk(
   "authentication/check",
   async (thunkAPI) => {
@@ -24,7 +25,7 @@ export const authenticationCheck = createAsyncThunk(
   }
 )
 
-export const logout = createAsyncThunk('authentication/logout', authentication_service.logout);
+export const logoutUser = createAsyncThunk('authentication/logout', authentication_service.logout);
 
 export const loginUser = createAsyncThunk(
   "authentication/login",
@@ -107,18 +108,18 @@ export const authenticationSlice = createSlice({
         error: action.error
       })
     },
-    [logout.pending]: (state) => {
+    [logoutUser.pending]: (state) => {
       Object.assign(state, {
         status: PENDING,
         error: null
       })
     },
-    [logout.fulfilled]: (state) => 
+    [logoutUser.fulfilled]: (state) => 
       Object.assign(state, {
         ...initialState,
         loading: false,
       }),
-    [logout.rejected]: (state, action) => {
+    [logoutUser.rejected]: (state, action) => {
       Object.assign(state, {
         status: ERROR,
         error: action.error
@@ -131,5 +132,5 @@ export const authenticationSlice = createSlice({
 
 export const selectAuth = (state) => state.authentication
 
-export default authenticationSlice.reducer
+export const authenticationReducer = authenticationSlice.reducer
 

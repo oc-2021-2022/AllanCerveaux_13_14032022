@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { authenticationCheck, selectAuth } from '../app/authSlice'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { authenticationCheck, logoutUser, selectAuth } from '../app/authSlice'
 import Logo from '../assets/images/argentBankLogo.png'
-import { logout } from '../services/authentication'
 
 export default function Navbar() {
   const [user, setUser] = useState(false)
   const { loggedInUser } = useSelector(selectAuth)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const location = useLocation()
+  const {from = { pathname: '/' }} = location
+
   
   useEffect(() => {
     dispatch(authenticationCheck())
@@ -18,7 +21,11 @@ export default function Navbar() {
     setUser(loggedInUser)
   }, [loggedInUser])
   
-  const logOut = () => dispatch(logout())
+  const logOut = async () => {
+    await dispatch(logoutUser())
+
+    navigate(from, { replace: true })
+  }
 
   return (
     <nav className="main-nav">

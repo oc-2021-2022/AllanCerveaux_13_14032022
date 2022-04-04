@@ -15,5 +15,9 @@
   "devDependencies": {
     "lerna": "^4.0.0"
   },
-  "private": true
+  "private": true,
+  "dependencies": {
+    "redux-devtools-extension": "^2.13.9",
+    "redux-thunk": "^2.4.1"
+  }
 }

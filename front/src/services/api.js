@@ -16,3 +16,9 @@ export function updateProfile({firstName, lastName}) {
     { firstName, lastName }
   )
 }
+
+export function signout(apiContext = {}) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, 1453);
+  });
+}
