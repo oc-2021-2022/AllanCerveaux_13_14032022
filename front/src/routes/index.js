@@ -24,7 +24,7 @@ export default function MainRoutes() {
 }
 
 
-function AuthenticationMiddleware({children}) {
+function AuthenticationMiddleware() {
   const dispatch = useDispatch()
   const { status, isAuthenticated } = useSelector(selectAuth)
   
