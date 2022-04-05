@@ -1,30 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { authenticationCheck, logoutUser, selectAuth } from '../app/authSlice'
+import { logoutUser, selectAuth } from '../app/authSlice'
 import Logo from '../assets/images/argentBankLogo.png'
 
 export default function Navbar() {
-  const [user, setUser] = useState(false)
-  const { loggedInUser } = useSelector(selectAuth)
+  const { isAuthenticated, loggedInUser } = useSelector(selectAuth)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const location = useLocation()
-  const {from = { pathname: '/' }} = location
-
-  
-  useEffect(() => {
-    dispatch(authenticationCheck())
-  }, [dispatch])
-
-  useEffect(() => {
-    setUser(loggedInUser)
-  }, [loggedInUser])
+  const { from = { pathname: '/' } } = location
   
   const logOut = async () => {
     await dispatch(logoutUser())
 
-    navigate(from, { replace: true })
+    navigate(from.pathname, { state: {from}, replace: true })
   }
 
   return (
@@ -39,11 +29,11 @@ export default function Navbar() {
       </Link>
       <div>
         {
-          !!user ? (
+          isAuthenticated ? (
             <>
-              <Link className="main-nav-item" to="/login">
+              <Link className="main-nav-item" to="/profile">
                 <i className="fa fa-user-circle"></i>
-                { user?.firstName }
+                { loggedInUser?.firstName || 'noone' }
               </Link>
               <a className="main-nav-item" href='#' onClick={logOut}>
                 <i className="fa fa-sign-out"></i>

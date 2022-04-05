@@ -9,8 +9,9 @@ export const authenticationCheck = createAsyncThunk(
     try {
       if (authentication_service.isAuthenticated()) {
         const token = authentication_service.getToken()
-        const response = await profile({ token })
+        const response = await profile()
         let data = await response.data
+        console.log(data)
         if (response.status === 200) {
           return { token, data }
         } else {
@@ -51,7 +52,7 @@ export const loginUser = createAsyncThunk(
 )
 
 const initialState = {
-  status: null,
+  status: PENDING,
   error: null,
   isAuthenticated: false,
   loggedInUser: null,
