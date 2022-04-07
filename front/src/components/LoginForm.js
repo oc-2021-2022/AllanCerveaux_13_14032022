@@ -28,7 +28,7 @@ export default function LoginForm() {
   } 
 
   return (
-    <form action='/profile' onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
       <Field type={'email'} id={'email'} name={'email'} label={'Email'} value={credentials.email} handleChange={handleStateChange}/>
       <Field type={'password'} id={'password'} name={'password'} label={'Password'} value={credentials.password} handleChange={handleStateChange}/>
       <Field type={'checkbox'} id={'remember-me'} label={'Remember me'} name={'rememberMe'} value={credentials.rememberMe} handleChange={handleStateChange}/>
