@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { ERROR, PENDING, SUCCESSFUL } from '../config/constant';
-import { login, profile, updateProfile } from '../services/api';
+import { login, profile } from '../services/api';
 import * as authentication_service from '../services/authentication';
 
 export const authenticationCheck = createAsyncThunk(
@@ -52,38 +52,17 @@ export const loginUser = createAsyncThunk(
   }
 )
 
-
-export const updateUser = createAsyncThunk(
-  'user/upateUser',
-  async ({ firstName, lastName }, thunkAPI) => {
-    try {
-      console.log(firstName, lastName)
-      const response = await updateProfile({ firstName, lastName })
-      const data = await response.data
-      if (response.status === 200) {
-        return {...data}
-      } else {
-        return thunkAPI.rejectWithValue(data)
-      }
-    } catch (error) {
-      console.log('error', error.response.data)
-      return thunkAPI.rejectWithValue(error.response.data)
-    }
-  }
-)
-
 const initialState = {
   status: PENDING,
   error: null,
   isAuthenticated: false,
-  currentUser: {},
   token: null
 }
 
 export const authenticationSlice = createSlice({
   name: 'authentication',
   initialState,
-  reducers: {},
+  reducers: { },
   extraReducers: {
     [authenticationCheck.pending]: (state) => {
       Object.assign(state, {
@@ -93,12 +72,9 @@ export const authenticationSlice = createSlice({
     },
     [authenticationCheck.fulfilled]: (state, { payload }) => {
       const { token, data } = payload
-      const user = data?.body || {}
-
       Object.assign(state, {
         status: SUCCESSFUL,
         isAuthenticated: !!token,
-        currentUser: user,
         token
       })
     },
@@ -146,32 +122,7 @@ export const authenticationSlice = createSlice({
         status: ERROR,
         error: action.error
       })
-    },
-    [updateUser.pending]: (state) => {
-      Object.assign(state, {
-        status: PENDING,
-        error: null
-      })
-    },
-    [updateUser.fulfilled]: (state, { payload }) => {
-      const { firstName, lastName } = payload.body
-      
-      Object.assign(state, {
-        currentUser: {
-          ...state.currentUser,
-          firstName,
-          lastName
-        },
-        status: SUCCESSFUL,
-        loading: false,
-      })
-    },
-    [updateUser.rejected]: (state, action) => {
-      Object.assign(state, {
-        status: ERROR,
-        error: action.error
-      })
-    },
+    }
   }
 })
 

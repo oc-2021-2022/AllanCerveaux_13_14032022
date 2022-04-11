@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectAuth, updateUser } from '../app/authSlice'
+import { selectUser, updateUser } from '../app/userSlice'
 import Field from './Field'
 
 export default function Profile() {
-  const {currentUser} = useSelector(selectAuth)
+  const { currentUser } = useSelector(selectUser)
   const [edit, setEdit] = useState(false)
   const startEdit = () => setEdit(!edit)
 
@@ -14,7 +14,7 @@ export default function Profile() {
       {
         !edit ? (
           <>
-            <h2>{currentUser?.firstName || ''} {currentUser?.lastName || ''}!</h2>
+            <h2>{currentUser?.firstName } { currentUser?.lastName }!</h2>
             <button className="edit-button" onClick={startEdit}>Edit Name</button>
           </>
         ) : (

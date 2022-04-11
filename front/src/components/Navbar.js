@@ -1,11 +1,12 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { logoutUser, selectAuth } from '../app/authSlice'
+import { logoutUser } from '../app/authSlice'
+import { selectUser } from '../app/userSlice'
 import Logo from '../assets/images/argentBankLogo.png'
 
 export default function Navbar() {
-  const { currentUser } = useSelector(selectAuth)
+  const { currentUser } = useSelector(selectUser)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const location = useLocation()
