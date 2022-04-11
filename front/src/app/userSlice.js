@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { ERROR, PENDING, SUCCESSFUL } from '../config/constant';
 import { updateProfile } from '../services/api';
-import { authenticationCheck } from './authSlice';
+import { authenticationCheck, logoutUser } from './authSlice';
 
 export const updateUser = createAsyncThunk(
   'user/upateUser',
@@ -35,6 +35,12 @@ export const userSlice = createSlice({
     [authenticationCheck.fulfilled]: (state, { payload }) => {
       Object.assign(state, {
         currentUser: payload.data.body
+      })
+    },
+    [logoutUser.fulfilled]: (state) => {
+      Object.assign(state, {
+        ...initialState,
+        status: SUCCESSFUL
       })
     },
     [updateUser.pending]: (state) => {
