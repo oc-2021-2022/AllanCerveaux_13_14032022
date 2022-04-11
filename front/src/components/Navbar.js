@@ -5,7 +5,7 @@ import { logoutUser, selectAuth } from '../app/authSlice'
 import Logo from '../assets/images/argentBankLogo.png'
 
 export default function Navbar() {
-  const { loggedInUser } = useSelector(selectAuth)
+  const { currentUser } = useSelector(selectAuth)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const location = useLocation()
@@ -28,11 +28,11 @@ export default function Navbar() {
       </Link>
       <div>
         {
-          Object.entries(loggedInUser).length ? (
+          Object.entries(currentUser).length ? (
             <>
               <Link className="main-nav-item" to="/profile">
                 <i className="fa fa-user-circle"></i>
-                { loggedInUser?.firstName }
+                { currentUser?.firstName }
               </Link>
               <a className="main-nav-item" href='#' onClick={logOut}>
                 <i className="fa fa-sign-out"></i>

@@ -4,7 +4,7 @@ import { selectAuth, updateUser } from '../app/authSlice'
 import Field from './Field'
 
 export default function Profile() {
-  const {loggedInUser} = useSelector(selectAuth)
+  const {currentUser} = useSelector(selectAuth)
   const [edit, setEdit] = useState(false)
   const startEdit = () => setEdit(!edit)
 
@@ -14,14 +14,14 @@ export default function Profile() {
       {
         !edit ? (
           <>
-            <h2>{loggedInUser?.firstName || ''} {loggedInUser?.lastName || ''}!</h2>
+            <h2>{currentUser?.firstName || ''} {currentUser?.lastName || ''}!</h2>
             <button className="edit-button" onClick={startEdit}>Edit Name</button>
           </>
         ) : (
             <ProfileForm
               user={{
-                firstName: loggedInUser?.firstName,
-                lastName: loggedInUser?.lastName
+                firstName: currentUser?.firstName,
+                lastName: currentUser?.lastName
               }}
               updateEdit={startEdit}
             />

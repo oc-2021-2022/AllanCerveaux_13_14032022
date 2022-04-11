@@ -76,7 +76,7 @@ const initialState = {
   status: PENDING,
   error: null,
   isAuthenticated: false,
-  loggedInUser: {},
+  currentUser: {},
   token: null
 }
 
@@ -98,7 +98,7 @@ export const authenticationSlice = createSlice({
       Object.assign(state, {
         status: SUCCESSFUL,
         isAuthenticated: !!token,
-        loggedInUser: user,
+        currentUser: user,
         token
       })
     },
@@ -157,8 +157,8 @@ export const authenticationSlice = createSlice({
       const { firstName, lastName } = payload.body
       
       Object.assign(state, {
-        loggedInUser: {
-          ...state.loggedInUser,
+        currentUser: {
+          ...state.currentUser,
           firstName,
           lastName
         },
