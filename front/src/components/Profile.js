@@ -1,28 +1,27 @@
-import React, { useContext, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { updateUser } from '../app/authSlice'
-import { AuthenticationContext } from '../providers/Authentication'
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectAuth, updateUser } from '../app/authSlice'
 import Field from './Field'
 
 export default function Profile() {
-  const [user] = useContext(AuthenticationContext)
+  const {loggedInUser} = useSelector(selectAuth)
   const [edit, setEdit] = useState(false)
   const startEdit = () => setEdit(!edit)
-  
+
   return (
     <div className='header'>
       <h1>Welcome back</h1>
       {
         !edit ? (
           <>
-            <h2>{user?.firstName || ''} {user?.lastName || ''}!</h2>
+            <h2>{loggedInUser?.firstName || ''} {loggedInUser?.lastName || ''}!</h2>
             <button className="edit-button" onClick={startEdit}>Edit Name</button>
           </>
         ) : (
             <ProfileForm
               user={{
-                firstName: user?.firstName,
-                lastName: user?.lastName
+                firstName: loggedInUser?.firstName,
+                lastName: loggedInUser?.lastName
               }}
               updateEdit={startEdit}
             />
@@ -47,11 +46,17 @@ function ProfileForm({user, updateEdit}) {
     console.log(name, value)
     setProfile({...profile, [name]: value})
   }
+
   return (
-    <form onSubmit={handleSubmit}>
-      <Field type={'text'} id={'firstName'} name={'firstName'} value={profile.firstName} handleChange={handleStateChange}/>
-      <Field type={'text'} id={'lastName'} name={'lastName'} value={profile.lastName} handleChange={handleStateChange} />
-      <Field type={'submit'} id={'submit'} value={'Envoyer'}/>
+    <form style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} onSubmit={handleSubmit}>
+      <div style={{display: 'flex', gap: '1rem'}}>
+        <Field type={'text'} id={'firstName'} name={'firstName'} value={profile.firstName} handleChange={handleStateChange}/>
+        <Field type={'text'} id={'lastName'} name={'lastName'} value={profile.lastName} handleChange={handleStateChange} />
+      </div>
+      <div style={{display: 'flex', gap: '1rem'}}>
+        <Field type={'submit'} id={'submit'} value='Envoyer' />
+        <Field type={'submit'} id={'submit'} value='Annuler' onClick={updateEdit} />
+      </div>
     </form>
   )
 }

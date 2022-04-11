@@ -154,11 +154,14 @@ export const authenticationSlice = createSlice({
       })
     },
     [updateUser.fulfilled]: (state, { payload }) => {
-      const { first_name, last_name } = payload.body
-      state.loggedInUser.firstName = first_name 
-      state.loggedInUser.lastName = last_name 
+      const { firstName, lastName } = payload.body
+      
       Object.assign(state, {
-        ...state,
+        loggedInUser: {
+          ...state.loggedInUser,
+          firstName,
+          lastName
+        },
         status: SUCCESSFUL,
         loading: false,
       })

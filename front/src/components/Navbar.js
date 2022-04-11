@@ -1,12 +1,11 @@
-import React, { useContext } from 'react'
-import { useDispatch } from 'react-redux'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { logoutUser } from '../app/authSlice'
+import { logoutUser, selectAuth } from '../app/authSlice'
 import Logo from '../assets/images/argentBankLogo.png'
-import { AuthenticationContext } from '../providers/Authentication'
 
 export default function Navbar() {
-  const [user, setUser] = useContext(AuthenticationContext)
+  const { loggedInUser } = useSelector(selectAuth)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const location = useLocation()
@@ -14,7 +13,6 @@ export default function Navbar() {
   
   const logOut = async () => {
     await dispatch(logoutUser())
-    setUser({})
     navigate(from.pathname, { state: {from}, replace: true })
   }
 
@@ -30,11 +28,11 @@ export default function Navbar() {
       </Link>
       <div>
         {
-          Object.entries(user).length ? (
+          Object.entries(loggedInUser).length ? (
             <>
               <Link className="main-nav-item" to="/profile">
                 <i className="fa fa-user-circle"></i>
-                { user?.firstName }
+                { loggedInUser?.firstName }
               </Link>
               <a className="main-nav-item" href='#' onClick={logOut}>
                 <i className="fa fa-sign-out"></i>
