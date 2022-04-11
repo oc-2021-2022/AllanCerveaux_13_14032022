@@ -1,13 +1,8 @@
 import Axios from 'axios'
 import { API_SERVER } from '../config/constant'
-import { getToken } from './authentication'
-
+// @TODO: Fisrt connexion can't get token
 const axios = Axios.create({
-  baseURL: `${API_SERVER}`,
-  headers: {
-    Authorization: `Bearer ${getToken()}`,
-    "Content-type": "application/json"
-  }
+  baseURL: `${API_SERVER}`
 })
 
 axios.interceptors.request.use(
