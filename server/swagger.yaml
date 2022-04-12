@@ -74,7 +74,7 @@ paths:
         - application/json
       responses:
         '200':
-          description: User profile retrieved successully
+          description: User profile retrieved successfully
           schema:
             $ref: '#/definitions/ApiResponse'
         '400':
@@ -103,13 +103,170 @@ paths:
         - application/json
       responses:
         '200':
-          description: User profile retrieved successully
+          description: User profile retrieved successfully
           schema:
             $ref: '#/definitions/ApiResponse'
         '400':
           description: Invalid Fields
         '500':
           description: Internal Server Error
+  /transactions:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - "Transaction Module"
+      summary: User Transaction API
+      description: API to get a user Transaction
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User transaction retrieved successfully
+          schema:
+            type: array
+            items:
+              type: object
+              $ref: '#/definitions/Transaction'
+        '404':
+          description: User transaction not found
+        '500':
+          description: Internal server Error
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - "Transaction Module"
+      summary: User Transaction API
+      description: API to get a user Transaction
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: body
+          name: body
+          description: Transaction payload
+          schema:
+            $ref: '#/definitions/Transaction'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transaction posted successfully
+        '405':
+          description: Invalid value
+        '500':
+          description: Internal server error
+  /transaction/{id}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - "Transaction Module"
+      summary: User specific transaction 
+      description: API to get a user Transaction
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: path
+          name: transactionId
+          description: Id of transaction to return
+          required: true
+          type: "integer"
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User transaction retrieved successfully
+          schema:
+            $ref: '#/definitions/Transaction'
+        '400':
+          description: Invalid transaction id
+        '404':
+          description: User transaction not found
+        '500':
+          description: Internal server Error
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - "Transaction Module"
+      summary: Update informations in user transaction
+      description: API to update informations of transation
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: path
+          name: transactionId
+          description: Id of transaction to return
+          required: true
+          type: "integer"
+        - in: body
+          name: body
+          description: Update transation informations payload
+          required: true
+          schema:
+            $ref: '#/definitions/TransactionInformations'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transaction retrieved successfully
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '400':
+          description: Invalid transaction id
+        '404':
+          description: Transaction not found
+        '405':
+          description: Invalid value
+        '500':
+          description: Internal server Error
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - "Transaction Module"
+      summary: Delete user transaction
+      description: API to get a user Transaction
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: path
+          name: transactionId
+          description: Id of transaction to return
+          required: true
+          type: "integer"
+        - in: body
+          name: body
+          description: Transaction delete Payload
+          required: true
+          schema:
+            $ref: "#/definitions/TransactionDeletePayload"
+      responses:
+        '200':
+          description: User transaction deleted successfully
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '400':
+          description: Invalid transaction id
+        '404':
+          description: Transaction not found
+        '500':
+          description: Internal server error
+      
 securityDefinitions:
   Bearer:
     type: apiKey
@@ -164,3 +321,47 @@ definitions:
         type: string
       lastName:
         type: string
+  Transaction:
+    type: object
+    properties:
+      amount:
+        type: integer
+        description: Transaction amount
+      balance:
+        type: integer
+        description: Account amount
+      description:
+        type: string
+        description: Description of transaction
+      transation_type:
+        type: string
+        description: Transaction type 
+      category:
+        type: string
+        description: Transaction category
+      note:
+        type: string
+        description: User note for transaction
+      date:
+        type: string
+        description: the Date the transaction was issued
+  TransactionInformations:
+    type: object
+    properties:
+      description:
+        type: string
+        description: Description of transaction
+      transation_type:
+        type: string
+        description: Transaction type 
+      category:
+        type: string
+        description: Transaction category
+      note:
+        type: string
+        description: User note for transaction
+  TransactionDeletePayload:
+    type: object
+    properties: 
+      transaction_id:
+        type: integer
