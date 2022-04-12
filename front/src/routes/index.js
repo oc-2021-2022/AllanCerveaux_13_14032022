@@ -1,8 +1,8 @@
 import { useSelector } from 'react-redux';
 import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
 import { selectAuth } from '../app/authSlice';
-import Errror from '../components/Error';
 import Dashboard from '../containers/Dashboard';
+import Error from '../containers/Error';
 import Home from '../containers/Home';
 import Login from '../containers/Login';
 
@@ -16,7 +16,7 @@ export default function MainRoutes() {
         <Route path='/login' element={<Login />} />
         <Route path='/profile' element={<Dashboard />} />
       </Route>
-      <Route path='*' element={<Errror />} />
+      <Route path='*' element={<Error />} />
     </Routes>
   )
 }
