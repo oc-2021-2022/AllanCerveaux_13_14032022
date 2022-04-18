@@ -34,7 +34,7 @@ export const userSlice = createSlice({
   extraReducers: {
     [authenticationCheck.fulfilled]: (state, { payload }) => {
       Object.assign(state, {
-        currentUser: payload.data.body
+        currentUser: payload?.data?.body || []
       })
     },
     [logoutUser.fulfilled]: (state) => {

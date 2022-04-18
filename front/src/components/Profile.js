@@ -48,12 +48,12 @@ function ProfileForm({user, updateEdit}) {
   }
 
   return (
-    <form style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} onSubmit={handleSubmit}>
-      <div style={{display: 'flex', gap: '1rem'}}>
+    <form className='profile-form' onSubmit={handleSubmit}>
+      <div className='profile-form-field'>
         <Field type={'text'} id={'firstName'} name={'firstName'} value={profile.firstName} handleChange={handleStateChange}/>
         <Field type={'text'} id={'lastName'} name={'lastName'} value={profile.lastName} handleChange={handleStateChange} />
       </div>
-      <div style={{display: 'flex', gap: '1rem'}}>
+      <div className='profile-form-field'>
         <Field type={'submit'} id={'submit'} value='Envoyer' />
         <Field type={'submit'} id={'submit'} value='Annuler' onClick={updateEdit} />
       </div>
